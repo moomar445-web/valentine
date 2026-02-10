@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Naz, be my Valentine? 💘</title>
+  <style>
+    :root {
+      --bg1: #ffe6f0;
+      --bg2: #fff3e6;
+      --card: rgba(255,255,255,0.9);
+      --text: #2b2b2b;
+      --accent: #ff4d88;
+      --accent2: #ff9f1c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, var(--bg2), var(--bg1));
+      overflow: hidden;
+    }
+    .card {
+      width: min(680px, 92vw);
+      padding: 28px 22px;
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      text-align: center;
+      position: relative;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      margin: 0 0 22px;
+      font-size: clamp(14px, 2.3vw, 18px);
+      opacity: 0.85;
+    }
+    .name {
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .stage {
+      position: relative;
+      height: 220px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,77,136,0.08), rgba(255,159,28,0.08));
+      border: 1px dashed rgba(0,0,0,0.12);
+      overflow: hidden;
+      margin: 18px 0 10px;
+    }
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      user-select: none;
+      touch-action: manipulation;
+      position: relative;
+    }
+    .btn:active { transform: scale(0.98); }
+    .yes {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 10px 22px rgba(255,77,136,0.35);
+    }
+    .no {
+      background: #f3f3f6;
+      color: #333;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+      position: absolute;
+      left: 60%;
+      top: 55%;
+      transform: translate(-50%, -50%);
+    }
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .footer {
+      margin-top: 14px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%);
+      padding: 12px 16px;
+      background: rgba(20,20,20,0.86);
+      color: #fff;
+      border-radius: 999px;
+      font-weight: 600;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1><span class="name">Naz</span>, will you be my Valentine? 💘</h1>
+    <p class="sub">From <strong>Mohamed</strong> — with snacks, vibes, and elite playlist energy 😌</p>
+
+    <div class="stage" id="stage">
+      <button class="btn no" id="noBtn">No</button>
+    </div>
+
+    <div class="controls">
+      <button class="btn yes" id="yesBtn">Yes 💖</button>
+    </div>
+
+    <div class="footer">Try clicking “No”… if you can 😈</div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const stage = document.getElementById('stage');
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const toast = document.getElementById('toast');
+
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 1400);
+    }
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function moveNoButton(e) {
+      const s = stage.getBoundingClientRect();
+      const b = noBtn.getBoundingClientRect();
+
+      const pad = 10;
+      const maxLeft = s.width - b.width - pad;
+      const maxTop  = s.height - b.height - pad;
+
+      const left = rand(pad, maxLeft);
+      const top  = rand(pad, maxTop);
+
+      noBtn.style.left = left + "px";
+      noBtn.style.top  = top + "px";
+      noBtn.style.transform = "translate(0,0)";
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", moveNoButton);
+    noBtn.addEventListener("click", moveNoButton);
+
+    yesBtn.addEventListener("click", () => {
+      showToast("SHE SAID YES!! 💖");
+
+      stage.innerHTML = `
+        <div style="height:100%;display:grid;place-items:center;text-align:center;">
+          <div>
+            <div style="font-size:42px;">💞💐🍫</div>
+            <div style="font-size:22px;font-weight:800;margin-top:8px;">
+              Naz said YES to Mohamed!
+            </div>
+            <div style="opacity:.85;margin-top:6px;">
+              Valentine’s plans officially unlocked 😌
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
