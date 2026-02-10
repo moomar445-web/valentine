@@ -25,7 +25,7 @@
       animation:bgShift 8s ease-in-out infinite alternate;
     }
     @keyframes bgShift{
-      0%{ filter:hue-rotate(0deg) saturate(1.05); transform: translateZ(0); }
+      0%{ filter:hue-rotate(0deg) saturate(1.05); }
       100%{ filter:hue-rotate(18deg) saturate(1.25); }
     }
 
@@ -35,6 +35,7 @@
       inset:0;
       pointer-events:none;
       overflow:hidden;
+      z-index: 1;
     }
     .heart{
       position:absolute;
@@ -57,6 +58,7 @@
       animation: pop .7s ease-out forwards;
       pointer-events:none;
       mix-blend-mode: screen;
+      z-index: 9998;
     }
     @keyframes pop{
       from{ transform: translate(-50%,-50%) scale(.2); opacity:1; }
@@ -73,6 +75,7 @@
       text-align:center;
       position:relative;
       backdrop-filter: blur(6px);
+      z-index: 2;
     }
     h1{
       margin:0 0 8px;
@@ -119,6 +122,7 @@
       background: var(--accent);
       color:#fff;
       box-shadow: 0 16px 30px rgba(255,61,127,.35);
+      transform-origin: center;
     }
     .yes:hover{ filter: brightness(1.06); }
 
@@ -130,6 +134,7 @@
       background: #f2f2f6;
       color:#222;
       box-shadow: 0 12px 26px rgba(0,0,0,.14);
+      will-change: left, top, transform;
     }
 
     .row{
@@ -166,7 +171,7 @@
       transform: translateX(-50%) translateY(-8px);
     }
 
-    /* Confetti pieces */
+    /* Confetti */
     .confetti{
       position:fixed;
       width:10px;
@@ -185,7 +190,7 @@
       }
     }
 
-    /* Music button */
+    /* VN button */
     .music{
       position:absolute;
       top:14px;
@@ -203,7 +208,7 @@
       border:0;
       border-radius:999px;
       padding:8px 10px;
-      font-weight:800;
+      font-weight:900;
       cursor:pointer;
       background: #111;
       color:#fff;
@@ -213,20 +218,205 @@
       opacity:.75;
       white-space:nowrap;
     }
+
+    /* --- Intro Screen --- */
+    .intro{
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 10000;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,.55), rgba(255,61,127,.20), rgba(255,176,32,.18));
+      backdrop-filter: blur(10px);
+      padding: 16px;
+    }
+    .intro.hide{ display:none; }
+
+    .introCard{
+      width: min(600px, 92vw);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 20px;
+      box-shadow: 0 22px 70px rgba(0,0,0,.22);
+      padding: 18px 16px;
+      text-align: center;
+    }
+    .introBadge{
+      display:inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      background: rgba(255,61,127,.12);
+      border: 1px dashed rgba(0,0,0,.18);
+      margin-bottom: 10px;
+    }
+    .introTitle{
+      font-size: clamp(22px, 4vw, 34px);
+      font-weight: 980;
+      margin-bottom: 6px;
+    }
+    .introText{
+      font-weight: 750;
+      opacity: .86;
+      margin: 0 0 12px;
+      line-height: 1.35;
+    }
+    .introBtn{
+      border: 0;
+      border-radius: 999px;
+      padding: 14px 18px;
+      font-weight: 980;
+      cursor: pointer;
+      background: #111;
+      color: #fff;
+      box-shadow: 0 16px 30px rgba(0,0,0,.20);
+    }
+    .introTiny{
+      margin-top: 10px;
+      font-size: 12px;
+      opacity: .72;
+    }
+    .introCountdown{
+      margin-top: 10px;
+      font-weight: 980;
+      font-size: 28px;
+      color: var(--accent);
+      min-height: 34px;
+      letter-spacing: .02em;
+    }
+    .introBar{
+      width: min(420px, 86%);
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.08);
+      margin: 12px auto 0;
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.08);
+    }
+    .introBarFill{
+      height:100%;
+      width:0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,61,127,.9), rgba(255,176,32,.9));
+      transition: width .18s ease;
+    }
+
+    /* --- Cat Overlay --- */
+    .catOverlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      place-items:center;
+      background: rgba(0,0,0,.28);
+      z-index: 9999;
+      padding: 16px;
+    }
+    .catOverlay.show{ display:grid; }
+
+    .catCard{
+      width: min(520px, 92vw);
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 18px;
+      box-shadow: 0 22px 70px rgba(0,0,0,.25);
+      padding: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .catRow{
+      display:flex;
+      gap: 14px;
+      align-items:center;
+    }
+
+    .catBlob{
+      width: 140px;
+      height: 120px;
+      display:grid;
+      place-items:center;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,61,127,.10), rgba(255,176,32,.10));
+      border: 1px dashed rgba(0,0,0,.18);
+      transform-origin: center;
+    }
+
+    .catText{ flex:1; text-align:left; }
+    .catTitle{
+      font-size: 18px;
+      font-weight: 980;
+      margin-bottom: 6px;
+    }
+    .catMsg{
+      font-size: 14px;
+      opacity: .86;
+      font-weight: 750;
+      line-height: 1.35;
+    }
+
+    .catBtns{ margin-top: 10px; }
+    .catBtn{
+      border:0;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight: 980;
+      cursor:pointer;
+      background: #111;
+      color:#fff;
+    }
+
+    @keyframes wiggle {
+      0%{ transform: rotate(0deg) scale(1); }
+      20%{ transform: rotate(-6deg) scale(1.02); }
+      40%{ transform: rotate(6deg) scale(1.02); }
+      60%{ transform: rotate(-4deg) scale(1.02); }
+      80%{ transform: rotate(4deg) scale(1.02); }
+      100%{ transform: rotate(0deg) scale(1); }
+    }
+    .wiggle{ animation: wiggle .55s ease-in-out; }
+
+    @keyframes dance {
+      0%{ transform: translateY(0) rotate(0deg) scale(1); }
+      25%{ transform: translateY(-6px) rotate(-6deg) scale(1.03); }
+      50%{ transform: translateY(0) rotate(6deg) scale(1.03); }
+      75%{ transform: translateY(-6px) rotate(-6deg) scale(1.03); }
+      100%{ transform: translateY(0) rotate(0deg) scale(1); }
+    }
+    .dance{ animation: dance .8s ease-in-out infinite; }
   </style>
 </head>
 
 <body>
   <div class="float-layer" id="floatLayer"></div>
 
-  <div class="card">
+  <!-- Intro Screen -->
+  <div class="intro" id="intro">
+    <div class="introCard">
+      <div class="introBadge">💌 For Naz</div>
+      <div class="introTitle">You’ve got a message…</div>
+      <div class="introText">
+        From <b>Mohamed</b> 🇹🇷💘<br/>
+        <span style="opacity:.9">Hazır mısın?</span> (Are you ready?)
+      </div>
+
+      <button class="introBtn" id="startBtn" type="button">Start ✨</button>
+
+      <div class="introCountdown" id="countdown"></div>
+      <div class="introBar" aria-hidden="true">
+        <div class="introBarFill" id="barFill"></div>
+      </div>
+
+      <div class="introTiny">Tip: sound can start after you tap Start.</div>
+    </div>
+  </div>
+
+  <div class="card" id="mainCard">
     <div class="music">
-      <button id="musicBtn" type="button">▶ Turkish Music</button>
+      <button id="musicBtn" type="button">▶ VN</button>
       <div class="hint" id="musicHint">tap to play</div>
     </div>
 
     <h1><span class="name">Naz</span>, will you be my Valentine? 💘</h1>
-    <p class="sub">I’m offering snacks, vibes, and *elite* playlist energy.</p>
+    <p class="sub">I’m offering snacks, vibes, and <b>*elite*</b> playlist energy.</p>
     <p class="from">— from <b>Mohamed</b> 😌</p>
 
     <div class="stage" id="stage">
@@ -245,8 +435,40 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Put a Turkish mp3 in your repo named music.mp3 -->
-  <audio id="bgm" preload="auto" loop>
+  <!-- Cute Cat Overlay -->
+  <div class="catOverlay" id="catOverlay" aria-hidden="true">
+    <div class="catCard">
+      <div class="catRow">
+        <div class="catBlob" id="catBlob" aria-hidden="true">
+          <!-- Simple cute SVG cat -->
+          <svg width="130" height="110" viewBox="0 0 130 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 44 L10 22 L36 30" fill="#ffd7e6"/>
+            <path d="M106 44 L120 22 L94 30" fill="#ffd7e6"/>
+            <ellipse cx="65" cy="62" rx="44" ry="38" fill="#ffd7e6"/>
+            <ellipse cx="49" cy="58" rx="7" ry="9" fill="#fff"/>
+            <ellipse cx="81" cy="58" rx="7" ry="9" fill="#fff"/>
+            <circle cx="49" cy="60" r="3.5" fill="#222"/>
+            <circle cx="81" cy="60" r="3.5" fill="#222"/>
+            <path d="M65 66 C62 69 59 71 56 71 C60 75 64 76 65 76 C66 76 70 75 74 71 C71 71 68 69 65 66Z" fill="#ff6aa2"/>
+            <path d="M28 66 C42 64 46 64 52 66" stroke="#ff6aa2" stroke-width="2" stroke-linecap="round"/>
+            <path d="M78 66 C84 64 88 64 102 66" stroke="#ff6aa2" stroke-width="2" stroke-linecap="round"/>
+            <path d="M58 78 C61 82 69 82 72 78" stroke="#222" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+
+        <div class="catText">
+          <div class="catTitle" id="catTitle">Naz… wait! 🐾</div>
+          <div class="catMsg" id="catMsg">The cat has something to say…</div>
+          <div class="catBtns">
+            <button class="catBtn" id="catOkBtn" type="button">Okay 😼</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Put a Turkish mp3 / your voice in your repo named music.mp3 -->
+  <audio id="bgm" preload="auto" loop playsinline>
     <source src="music.mp3" type="audio/mpeg">
   </audio>
 
@@ -261,9 +483,24 @@
     const musicBtn = document.getElementById('musicBtn');
     const musicHint = document.getElementById('musicHint');
 
+    const intro = document.getElementById("intro");
+    const startBtn = document.getElementById("startBtn");
+    const countdownEl = document.getElementById("countdown");
+    const barFill = document.getElementById("barFill");
+
+    const catOverlay = document.getElementById('catOverlay');
+    const catTitle = document.getElementById('catTitle');
+    const catMsg = document.getElementById('catMsg');
+    const catOkBtn = document.getElementById('catOkBtn');
+    const catBlob = document.getElementById('catBlob');
+
     let dodgeLevel = 1;          // gets harder
     let yesScale = 1;            // yes button grows
-    let noTaunts = [
+    let playing = false;
+    let introStarted = false;
+    let catOpen = false;
+
+    const noTaunts = [
       "Nice try 😈",
       "Nopeeee 😂",
       "Caught you lacking 😭",
@@ -271,6 +508,25 @@
       "Try again, superstar ✨",
       "Too slow 😌",
       "Not today 😎"
+    ];
+
+    const catBegLines = [
+      "Naz… please don’t press No 🥺🐾",
+      "Meow meow… choose YES for Mohamed 😼💘",
+      "I’m just a small cat… don’t break hearts 😭🐾",
+      "The No button is illegal in this house 😾💞"
+    ];
+
+    const catSweetLines = [
+      "I heard you love cats… so I came to approve this Valentine request 😌🐾",
+      "Naz, Mohamed made this just for you… that’s very sweet 😽💖",
+      "Friendly cat reminder: YES looks great on you 🇹🇷💘"
+    ];
+
+    const catDanceLines = [
+      "SHE SAID YES!! I’M DANCING 😻🎉",
+      "VALENTINE UNLOCKED!! 🐾💃💘",
+      "We celebrating tonight 😼✨💖"
     ];
 
     function showToast(msg){
@@ -318,7 +574,6 @@
         c.style.left = rand(0,100)+"vw";
         c.style.animationDuration = rand(2.8, 6.5)+"s";
         c.style.transform = `translateY(-20px) rotate(${rand(0,360)}deg)`;
-        // random color without hardcoding palette (still fun)
         c.style.background = `hsl(${Math.floor(rand(0,360))} 90% 60%)`;
         c.style.width = rand(6,12) + "px";
         c.style.height = rand(10,18) + "px";
@@ -326,6 +581,68 @@
         setTimeout(()=>c.remove(), 7000);
       }
     }
+
+    function openCatOverlay(mode="beg"){
+      catOpen = true;
+      catOverlay.classList.add("show");
+
+      if(mode === "dance"){
+        catTitle.textContent = "CAT CELEBRATION 😻";
+        catMsg.textContent = catDanceLines[Math.floor(Math.random()*catDanceLines.length)];
+        catBlob.classList.add("dance");
+      } else if(mode === "sweet"){
+        catTitle.textContent = "Message from the cat 🐾";
+        catMsg.textContent = catSweetLines[Math.floor(Math.random()*catSweetLines.length)];
+        catBlob.classList.remove("dance");
+        catBlob.classList.add("wiggle");
+        setTimeout(()=>catBlob.classList.remove("wiggle"), 600);
+      } else {
+        catTitle.textContent = "Naz… wait! 🐾";
+        catMsg.textContent = catBegLines[Math.floor(Math.random()*catBegLines.length)];
+        catBlob.classList.remove("dance");
+        catBlob.classList.add("wiggle");
+        setTimeout(()=>catBlob.classList.remove("wiggle"), 600);
+      }
+    }
+
+    function closeCatOverlay(){
+      catOpen = false;
+      catOverlay.classList.remove("show");
+      catBlob.classList.remove("dance");
+    }
+
+    catOkBtn?.addEventListener("click", closeCatOverlay);
+    catOverlay?.addEventListener("click", (e)=>{
+      if(e.target === catOverlay) closeCatOverlay();
+    });
+
+    async function tryPlayMusic(){
+      try{
+        await bgm.play();
+        playing = true;
+        musicBtn.textContent = "⏸ VN";
+        musicHint.textContent = "playing 💘";
+        return true;
+      }catch(e){
+        musicHint.textContent = "tap to play";
+        return false;
+      }
+    }
+
+    // VN button toggle
+    musicBtn?.addEventListener("click", async ()=>{
+      if(!playing){
+        const ok = await tryPlayMusic();
+        if(ok) showToast("VN on 🎙️🇹🇷");
+        else showToast("If it didn’t play, tap again 😅");
+      }else{
+        bgm.pause();
+        playing = false;
+        musicBtn.textContent = "▶ VN";
+        musicHint.textContent = "tap to play";
+        showToast("Paused 🎶");
+      }
+    });
 
     // Place no button safely
     function moveNoButton(ev){
@@ -349,13 +666,10 @@
         const cy = s.top + top + b.height/2;
         const dx = cx - px, dy = cy - py;
         const dist = Math.sqrt(dx*dx + dy*dy);
-
-        // prefer far, plus some chaos
         const score = dist + rand(0, 120);
         if(score > best.score) best = {left, top, score};
       }
 
-      // teleport + small shake
       noBtn.style.left = best.left + "px";
       noBtn.style.top = best.top + "px";
       noBtn.style.transform = "translate(0,0) rotate(" + rand(-6,6) + "deg)";
@@ -365,45 +679,46 @@
 
       dodgeLevel = Math.min(12, dodgeLevel + 0.7);
 
-      // make YES more tempting 😈
       yesScale = Math.min(2.2, yesScale + 0.08);
       yesBtn.style.transform = `scale(${yesScale})`;
 
       const msg = noTaunts[Math.floor(rand(0, noTaunts.length))];
       showToast(msg);
-
-      // sparkles at pointer
       sparkle(px, py);
+
+      // Cat reactions on "No" attempts
+      if (!catOpen) {
+        if (Math.random() < 0.65) openCatOverlay("beg");
+        else openCatOverlay("sweet");
+      }
     }
 
     function initNo(){
       const s = stage.getBoundingClientRect();
-      noBtn.style.left = (s.width*0.62) + "px";
-      noBtn.style.top  = (s.height*0.56) + "px";
-      noBtn.style.transform = "translate(-50%,-50%)";
+      const b = noBtn.getBoundingClientRect();
+      const left = (s.width*0.62) - (b.width/2);
+      const top  = (s.height*0.56) - (b.height/2);
+      noBtn.style.left = left + "px";
+      noBtn.style.top  = top + "px";
+      noBtn.style.transform = "translate(0,0)";
     }
 
-    // Run away on hover (desktop) and touch (mobile)
     noBtn.addEventListener("mouseenter", (e)=> moveNoButton(e));
-    noBtn.addEventListener("mousemove", (e)=> {
-      // extra dodgy when close
+    noBtn.addEventListener("mousemove", (e)=>{
       if(dodgeLevel > 2 && Math.random() < 0.35) moveNoButton(e);
     });
-
     noBtn.addEventListener("touchstart", (e)=>{
       const t = e.touches?.[0];
       moveNoButton(t);
       e.preventDefault();
     }, {passive:false});
-
     noBtn.addEventListener("click", (e)=> moveNoButton(e));
 
-    // YES celebration screen
     yesBtn.addEventListener("click", ()=>{
+      openCatOverlay("dance");
       confettiBoom();
       showToast("YAAAY!! 💖 NAZ SAID YES!");
 
-      // little “firework” sparkles
       const center = stage.getBoundingClientRect();
       sparkle(center.left + center.width/2, center.top + center.height/2);
 
@@ -414,52 +729,55 @@
             <div style="font-size:24px;font-weight:950;margin-top:10px;">
               Naz said YES to Mohamed!!
             </div>
-            <div style="opacity:.88;margin-top:8px;font-weight:700;">
+            <div style="opacity:.88;margin-top:8px;font-weight:750;">
               Valentine’s plans: <span style="color:#ff3d7f">UNLOCKED</span> 😌
             </div>
             <div style="margin-top:10px;opacity:.8;">
-              🇹🇷 <b>“Çok tatlısın!”</b> (You’re so sweet!)
+              🇹🇷 <b>“Çok tatlısın!”</b>
             </div>
           </div>
         </div>
       `;
     });
 
-    // Music: user gesture required
-    let playing = false;
-    musicBtn.addEventListener("click", async ()=>{
-      try{
-        if(!playing){
-          await bgm.play();
-          playing = true;
-          musicBtn.textContent = "⏸ Turkish Music";
-          musicHint.textContent = "playing 💘";
-          showToast("Turkish vibes on 🇹🇷🎶");
-        }else{
-          bgm.pause();
-          playing = false;
-          musicBtn.textContent = "▶ Turkish Music";
-          musicHint.textContent = "tap to play";
-          showToast("Paused 🎶");
-        }
-      }catch(err){
-        showToast("Music didn’t load — add music.mp3 to the repo!");
-        musicHint.textContent = "upload music.mp3";
-      }
-    });
+    // Intro sequence: Start -> countdown 3..2..1 -> hide intro -> try play music
+    function setProgress(pct){
+      barFill.style.width = Math.max(0, Math.min(100, pct)) + "%";
+    }
 
-    // If she clicks anywhere, try gently to start music (still needs gesture)
-    document.addEventListener("click", ()=>{
-      if(!playing){
-        bgm.play().then(()=>{
-          playing=true;
-          musicBtn.textContent="⏸ Turkish Music";
-          musicHint.textContent="playing 💘";
-        }).catch(()=>{ /* ignore */ });
-      }
-    }, {once:true});
+    async function runIntro(){
+      if(introStarted) return;
+      introStarted = true;
 
+      startBtn.disabled = true;
+      startBtn.textContent = "Loading… 💘";
+
+      const steps = [
+        {t:"3", p:25},
+        {t:"2", p:55},
+        {t:"1", p:85},
+        {t:"GO! 😼", p:100},
+      ];
+
+      for(const s of steps){
+        countdownEl.textContent = s.t;
+        setProgress(s.p);
+        await new Promise(r=>setTimeout(r, 520));
+      }
+
+      intro.classList.add("hide");
+      showToast("Okay Naz… here we go 😌💘");
+
+      // Best chance to start audio (user gesture already happened)
+      await tryPlayMusic();
+    }
+
+    startBtn?.addEventListener("click", runIntro);
+
+    // Resize safety
     window.addEventListener("resize", initNo);
+
+    // Initialize
     initNo();
   </script>
 </body>
